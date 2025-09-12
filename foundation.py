@@ -9,7 +9,11 @@ import io
 @st.cache_resource
 def load_model():
     tokenizer = AutoTokenizer.from_pretrained("fdtn-ai/Foundation-Sec-8B-Instruct")
-    model = AutoModelForCausalLM.from_pretrained("fdtn-ai/Foundation-Sec-8B-Instruct")
+    model = AutoModelForCausalLM.from_pretrained(
+    "fdtn-ai/Foundation-Sec-8B-Instruct",
+    device_map="auto",
+    torch_dtype=torch.float16
+)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     return tokenizer, model.to(device), device
 
