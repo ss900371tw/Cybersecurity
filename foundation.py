@@ -9,18 +9,10 @@ import io
 @st.cache_resource
 def load_model():
     tokenizer = AutoTokenizer.from_pretrained("fdtn-ai/Foundation-Sec-8B-Instruct")
-    bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_use_double_quant=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_compute_dtype=torch.bfloat16
-    )
-
-    tokenizer = AutoTokenizer.from_pretrained("fdtn-ai/Foundation-Sec-8B-Instruct")
     model = AutoModelForCausalLM.from_pretrained(
     "fdtn-ai/Foundation-Sec-8B-Instruct",
-    quantization_config=bnb_config,
     device_map="auto",
+    load_in_8bit=True
     )
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     return tokenizer, model.to(device), device
