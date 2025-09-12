@@ -8,8 +8,8 @@ import io
 # ✅ 初始化模型 (只要跑一次)
 @st.cache_resource
 def load_model():
-    tokenizer = AutoTokenizer.from_pretrained("fdtn-ai/Foundation-Sec-8B-Instruct")
-    model = AutoModelForCausalLM.from_pretrained("fdtn-ai/Foundation-Sec-8B-Instruct")
+    tokenizer = AutoTokenizer.from_pretrained("fdtn-ai/Foundation-Sec-8B")
+    model = AutoModelForCausalLM.from_pretrained("fdtn-ai/Foundation-Sec-8B")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     return tokenizer, model.to(device), device
 
