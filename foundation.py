@@ -33,7 +33,6 @@ Command and Scripting Interpreter: Web Shell (T1505.003)
 Exploitation of Web Application (T1190)
 Remote Services (T1021)
 """
-
     inputs = tokenizer(
         prompt, return_tensors="pt", padding=True, add_special_tokens=True
     )
@@ -54,6 +53,7 @@ Remote Services (T1021)
     response = response.replace(prompt, "").strip()
     return response
 
+
 # ✅ Streamlit UI
 st.title("🔎 Cybersecurity Log MITRE ATT&CK Mapper")
 
@@ -65,19 +65,20 @@ if uploaded_files:
     st.success(f"已上傳 {len(uploaded_files)} 個檔案")
 
 if st.button("🚀 開始分析"):
+    results = []
     for uploaded_file in uploaded_files:
         content = uploaded_file.read().decode("utf-8", errors="ignore")
 
         # 嘗試讀取成 CSV，否則逐行讀
         try:
-            df = pd.read_csv(io.StringIO(content))
+            df = pd.read_csv(uploaded_file)
         except Exception:
             lines = content.splitlines()
             df = pd.DataFrame({"raw_log": lines})
 
         st.subheader(f"📄 分析檔案: {uploaded_file.name}")
 
-        results = []
+        # 假設每一行是一筆 log，你可以依需求調整 parsing
         for idx, row in df.iterrows():
             alert_dict = {}
             if "raw_log" in row:
@@ -85,6 +86,10 @@ if st.button("🚀 開始分析"):
             else:
                 alert_dict = row.to_dict()
 
+            response = analyze_alert(alert_dict)
+            results.append({"file": uploaded_file.name, "log_index": idx, "mitre_mapping": response})
+
+        st.dataframe(pd.DataFrame(results))
             response = analyze_alert(alert_dict)
             results.append({"log_index": idx, "mitre_mapping": response})
 
