@@ -5,6 +5,8 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import io
 from huggingface_hub import login
+import os
+
 foundation_token = os.getenv("foundation_token","")
 login(token=foundation_token)
 
