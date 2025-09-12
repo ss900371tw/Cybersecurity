@@ -2,7 +2,7 @@
 import streamlit as st
 import pandas as pd
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import io
 
 # ✅ 初始化模型 (只要跑一次)
