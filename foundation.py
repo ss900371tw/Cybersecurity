@@ -3,7 +3,7 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import os
 import io
-
+from transformers import cached_path
 # 嘗試匯入 pypdf，如果沒有安裝則提示
 try:
     import pypdf
